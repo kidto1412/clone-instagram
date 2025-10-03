@@ -19,16 +19,25 @@
               title="Instagram logo"
             />
           </h1>
-          <form>
+          <form id="loginForm">
             <label for="email" class="sr-only"
               >Phone Number, username, e-mail</label
             >
-            <input name="email" placeholder="Phone Number, username, e-mail" />
+            <input
+              name="email"
+              placeholder="Phone Number, username, e-mail"
+              id="username"
+            />
 
             <label for="password" class="sr-only">Password</label>
-            <input name="password" type="password" placeholder="Password" />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              id="password"
+            />
 
-            <button type="button">Login</button>
+            <button type="submit" style="cursor: pointer">Login</button>
           </form>
           <div class="flex separator align-items-center">
             <span></span>
@@ -80,5 +89,27 @@
       </ul>
       <p class="copyright">© 2020 Instagram do Facebook</p>
     </footer>
+    <script>
+      // Tangkap form
+      const form = document.getElementById("loginForm");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // biar ga reload
+
+        // Ambil nilai input
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Untuk sementara tampilkan di console
+        console.log("Email/Username:", username);
+        console.log("Password:", password);
+
+        // Bisa juga simpan ke localStorage
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+
+        // alert("Data terkirim! (cek console untuk lihat hasil)");
+      });
+    </script>
   </body>
 </html>
